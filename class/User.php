@@ -41,6 +41,22 @@ class User {
     
     }
 
+    public static function getList(){
+
+        $sql = new Sql();
+
+        return $sql->select("SELECT * FROM tb_usuario ORDER BY des_login;");
+    }
+
+    public static function search($login){
+
+        $sql = new Sql();
+
+        return $sql->select("SELECT * FROM tb_usuario WHERE des_login LIKE :SEARCH ORDER BY des_login;", array(
+            ":SEARCH"=>"%".$login."%" 
+        ));
+    }
+
     public function loadById($id){
 
         $sql = new Sql();
