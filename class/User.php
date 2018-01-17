@@ -57,6 +57,25 @@ class User {
         ));
     }
 
+    public function login($login, $password){
+
+        $sql = new Sql();
+        $result = $sql->select("SELECT * FROM tb_usuario WHERE des_login = :LOGIN AND des_senha = :PASSWORD;", array(
+            ":LOGIN" =>$login,
+            ":PASSWORD"=>$password  
+        ));
+
+        if(count($result) > 0){
+
+            $data = $result[0];
+            $this->setData($data);
+        }
+        else {
+            
+            throw new Exception("Login e/ou Senha inválidos.");
+        }
+    } 
+
     public function loadById($id){
 
         $sql = new Sql();
@@ -67,15 +86,36 @@ class User {
         if(count($result) > 0){
 
             //Recebe a linha do id
-            $row = $result[0];
-
-            //Seto nos métodos os valores do banco de dados
-            $this->setIdUsuario($row['id_usuario']);
-            $this->setDeslogin($row['des_login']);
-            $this->setDessenha($row['des_senha']);
-            $this->setDtCadastro(new DateTime($row['dt_cadastro']));
+            $data = $result[0];
+            $this->setData($data);
         }
     }
+
+    private function setData($data){
+
+        //Seto nos métodos os valores do banco de dados
+        $this->setIdUsuario($data['id_usuario']);
+        $this->setDeslogin($data['des_login']);
+        $this->setDessenha($data['des_senha']);
+        $this->setDtCadastro(new DateTime($data['dt_cadastro']));
+    }
+
+    public function insert(){
+
+        $sql = new Sql();
+
+        $result = $sql->select("CALL sp_usuario_insert(:LOGIN,:PASSWORD)", array(
+            ":LOGIN"=>$this->getDeslogin(),
+            ":PASSWORD"=>$this->getDessenha()
+        ));
+
+        if(count($result) > 0){
+            $data = $result[0];
+            $this->setData($data);
+        }
+    }
+
+
 
     public function __toString(){
 
