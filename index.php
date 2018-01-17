@@ -21,11 +21,16 @@ require_once("config.php");
 
 //echo $user;
 
-$estudante = new User();
-$estudante->setDeslogin("aluno");
-$estudante->setDessenha("@alun0");
-$estudante->insert();
+//Faz o insert
+//$estudante = new User();
+//$estudante->setDeslogin("aluno");
+//$estudante->setDessenha("@alun0");
+//$estudante->insert();
+//echo $estudante;
 
-echo $estudante;
+$user = new User();
+$user->loadById(8);
+$user->update("user","1234567");
+echo $user;
 
 ?>
