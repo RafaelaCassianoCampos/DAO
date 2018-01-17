@@ -28,9 +28,14 @@ require_once("config.php");
 //$estudante->insert();
 //echo $estudante;
 
-$user = new User();
+/*$user = new User();
 $user->loadById(8);
 $user->update("user","1234567");
 echo $user;
+*/
 
+$user = new User();
+$user->loadById(8);
+$user->delete();
+echo $user;
 ?>
