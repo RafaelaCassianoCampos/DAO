@@ -129,6 +129,19 @@ class User {
         ));
     }
 
+    public function delete(){
+
+        $sql = new Sql();
+        $sql->query("DELETE FROM tb_usuario WHERE id_usuario = :ID",array(
+            ":ID"=>$this->getIdUsuario()
+        ));
+
+        $this->setIdUsuario(0);
+        $this->setIdUsuario("");
+        $this->setIdUsuario("");
+        $this->setIdUsuario(new DateTime());
+    }
+
     public function __toString(){
 
         return json_encode(array(
